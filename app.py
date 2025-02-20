@@ -4,6 +4,7 @@ from app_config import config
 from flask_jwt_extended import decode_token
 from models import Usuario
 
+
 # Definição de um usuário anônimo para evitar erros caso autenticação de errado (não deu)
 class AnonymousUser:
     is_authenticated = False

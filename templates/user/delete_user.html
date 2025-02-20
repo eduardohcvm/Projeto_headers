@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Excluir Usuário{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <h1>Excluir Usuário</h1>
+        <p>Tem certeza de que deseja excluir o usuário <strong>{{ user.nome }}</strong>? Esta ação não pode ser desfeita.</p>
+
+        <!-- Formulário que envia a requisição POST para excluir o usuário -->
+        <form method="POST" action="{{ url_for('delete_user', user_id=user.id) }}">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

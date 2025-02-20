@@ -104,7 +104,7 @@ def register_posts_routes(app):
 
     @app.route('/posts/user/<int:user_id>', methods=['GET'])
     def posts_by_user(user_id):
-        """Lista todos os posts de um usuário específico, se estiver logado."""
+
         current_user_id = get_current_user_id()
         if not current_user_id:
             flash("Você precisa estar logado para ver posts de um usuário.", "error")

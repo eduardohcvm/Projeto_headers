@@ -2,22 +2,11 @@
 {% block title %}Posts de {{ user.nome }}{% endblock %}
 {% block content %}
     <h1>Posts de {{ user.nome }}</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Descrição</th>
-        </tr>
-        </thead>
-        <tbody>
+    <ul class="list-group">
         {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.titulo }}</td>
-                <td>{{ post.descricao }}</td>
-            </tr>
+            <li class="list-group-item">
+                <strong>{{ post.titulo }}</strong> - {{ post.descricao }}
+            </li>
         {% endfor %}
-        </tbody>
-    </table>
+    </ul>
 {% endblock %}
