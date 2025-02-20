@@ -10,19 +10,17 @@ def get_current_user_id():
     if not access_token:
         return None
     try:
-        decoded = decode_token(access_token)
-        return int(decoded.get("sub"))
+        decoded = decode_token(access_token) # Decodifica o token JWT
+        return int(decoded.get("sub")) # sub é o campo padrão para o ID do usuário retornado pelo JWT
     except Exception:
         return None
 
 def register_user_routes(app):
 
+
     @app.route('/users', methods=['GET'])
     def users():
-        """
-        Lista todos os usuários.
-        - Apenas admin pode ver todos os usuários.
-        """
+
         current_user_id = get_current_user_id()
         if not current_user_id:
             flash("Você precisa estar logado para acessar esta página.", "error")
@@ -38,20 +36,20 @@ def register_user_routes(app):
         # Renderiza o template com a lista de usuários
         return render_template('user/users.html', users=all_users)
 
+
+
     @app.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
     def edit_user(user_id):
-        """
-        Edita as informações de um usuário específico (nome, email, senha).
-        - O próprio usuário pode se editar.
-        - O admin pode editar qualquer usuário.
-        """
+
         current_user_id = get_current_user_id()
         if not current_user_id:
             flash("Você precisa estar logado para editar usuários.", "error")
             return redirect(url_for('login'))
 
+
         current_user = Usuario.query.get(current_user_id)
         user = Usuario.query.get_or_404(user_id)
+
 
         # Verifica se é o próprio usuário ou se é admin
         if user.id != current_user_id and not (current_user and current_user.is_admin):
@@ -84,6 +82,8 @@ def register_user_routes(app):
         # Se for GET, renderiza o formulário com dados do usuário
         return render_template('user/edit_user.html', user=user)
 
+
+
     @app.route('/confirm_delete_user/<int:user_id>', methods=['GET'])
     def confirm_delete_user(user_id):
         """
@@ -107,11 +107,7 @@ def register_user_routes(app):
 
     @app.route('/delete_user/<int:user_id>', methods=['POST'])
     def delete_user(user_id):
-        """
-        Exclui um usuário específico.
-        - O próprio usuário pode se excluir.
-        - O admin pode excluir qualquer usuário.
-        """
+
         current_user_id = get_current_user_id()
         if not current_user_id:
             flash("Você precisa estar logado para excluir usuários.", "error")
@@ -120,22 +116,25 @@ def register_user_routes(app):
         current_user = Usuario.query.get(current_user_id)
         user = Usuario.query.get_or_404(user_id)
 
-        # Verifica se é o próprio usuário ou se é admin
+        # Permite exclusão se for o próprio usuário ou se for admin
         if user.id != current_user_id and not (current_user and current_user.is_admin):
             flash("Você não tem permissão para excluir este usuário.", "error")
-            return redirect(url_for('users'))
+            return redirect(url_for('home'))
 
         try:
+            # Exclui os posts associados para evitar erros de integridade
+            for post in user.posts:
+                db.session.delete(post)
             db.session.delete(user)
             db.session.commit()
             flash("Usuário excluído com sucesso!", "success")
-        except Exception:
+        except Exception as e:
             db.session.rollback()
-            flash("Erro ao excluir usuário.", "error")
+            flash("Erro ao excluir usuário: " + str(e), "error")
 
-        # Se o próprio usuário se excluiu, remove o token da sessão e redireciona para login
+        # Se o próprio usuário se excluir, remove o token da sessão e redireciona para login
         if user.id == current_user_id:
             session.pop('access_token', None)
             return redirect(url_for('login'))
 
-        return redirect(url_for('users'))
+        return redirect(url_for('home'))
