@@ -1,0 +1,12 @@
+{% extends "basic/base.html" %}
+{% block title %}Tornar-se Admin{% endblock %}
+{% block content %}
+    <h1>Tornar-se Admin</h1>
+    <form method="POST" action="{{ url_for('become_admin') }}">
+        <div class="mb-3">
+            <label for="admin_pass" class="form-label">Senha de Admin</label>
+            <input type="password" class="form-control" id="admin_pass" name="admin_pass" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Tornar Admin</button>
+    </form>
+{% endblock %}

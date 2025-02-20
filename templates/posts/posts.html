@@ -1,0 +1,36 @@
+<!-- templates/posts.html -->
+{% extends "basic/base.html" %}
+{% block title %}Posts{% endblock %}
+{% block content %}
+    <h1>Posts</h1>
+    <a href="{{ url_for('create_post') }}" class="btn btn-primary mb-3">Criar Post</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Conteúdo</th>
+            <th>Autor</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.content }}</td>
+                <td>{{ post.user.name }} (ID: {{ post.user.id }})</td>
+                <td>
+                    {% if current_user.is_authenticated and (current_user.id == post.user.id or current_user.is_admin) %}
+                        <a href="{{ url_for('update_post', id=post.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <form action="{{ url_for('delete_post', id=post.id) }}" method="POST" style="display:inline-block;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Deletar</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

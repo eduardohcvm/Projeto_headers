@@ -1,0 +1,17 @@
+{% extends "basic/base.html" %}
+{% block title %}Criar Post{% endblock %}
+{% block content %}
+    <h1>Criar Post</h1>
+    <form method="POST" action="{{ url_for('create_post') }}">
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" class="form-control" id="titulo" name="titulo" required>
+        </div>
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <textarea class="form-control" id="descricao" name="descricao" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Criar</button>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

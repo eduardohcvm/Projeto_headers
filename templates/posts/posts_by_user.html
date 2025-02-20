@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Posts de {{ user.nome }}{% endblock %}
+{% block content %}
+    <h1>Posts de {{ user.nome }}</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descrição</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.titulo }}</td>
+                <td>{{ post.descricao }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
