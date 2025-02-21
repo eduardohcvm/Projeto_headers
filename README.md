@@ -1,7 +1,7 @@
 
 # Projeto - Rede Social em Flask
 
-Este é um projeto de **Rede Social** desenvolvido em **Flask** que permite o cadastro e gerenciamento de **usuários** e **posts**, com controle de autenticação usando **JWT** e um CRUD completo para cada entidade.
+Este é um projeto de **Rede Social** desenvolvido em **Flask** que permite o cadastro e gerenciamento de **usuários** e **posts**, com controle de autenticação usando **JWT** e um CRUD completo para cada entidade.     SENHA PARA SER ADMIN: 12345
 
 ## Funcionalidades Principais
 
